@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title> </title>
+  <style>
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  color: black;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  z-index: 9999;
+}
+
+body.dark-mode .toast {
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+}
+
+.socials {
+  margin: 0.5rem 0 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.social-icon {
+  width: 32px;
+  height: 32px;
+  transition: opacity 0.2s ease;
+  filter: invert(1);
+  cursor: pointer;
+}
+
+.social-icon:hover {
+  opacity: 0.7;
+}
+
+
+  body {
+  transition: background 0.4s, color 0.4s;
+}
+.listening-label {
+  font-size: 0.8rem;
+  color: #888;
+  margin-bottom: 0.25rem;
+  letter-spacing: 0.05em;
+    }
+
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      font-family: sans-serif;
+    }
+    .rain {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .card {
+      position: relative;
+      z-index: 2;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      padding: 1.5rem;
+      text-align: center;
+      max-width: 400px;
+    }
+    .avatar {
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      margin-bottom: 1rem;
+    }
+    .username {
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: white !important
+    }
+    .status {
+      font-weight: bold;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+    .online { background-color: #43b581; color: white; }
+    .offline { background-color: #747f8d; color: white; }
+    .idle { background-color: #faa61a; color: white; }
+    .dnd { background-color: #f04747; color: white; }
+    .activity {
+      font-size: 0.95rem;
+      color: #aaa;
+      margin-top: 0.5rem;
+    }
+    .spotify, .soundcloud {
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .album-art {
+      width: 80px;
+      height: 80px;
+      border-radius: 4px;
+    }
+    .song-info {
+      flex-grow: 1;
+    }
+    .song-title {
+      font-weight: bold;
+      font-size: 0.9rem;
+      color: white !important;
+    }
+    .song-artist {
+      color: #ccc;
+      font-size: 1rem;
+    }
+    .progress-bar {
+      width: 100%;
+      min-width: 300px;
+      max-width: 310px;
+      height: 6px;
+      background: #333;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 0.25rem;
+    }
+    .progress {
+      height: 100%;
+      background: white;  
+      width: 0%;
+    }
+    .time-stamp {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: #888;
+      margin-top: 0.25rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="toast" class="toast">Copied Discord: @nikox3</div>
+<canvas class="rain"></canvas>
+<div id="theme-toggle" style="position: fixed; top: 1rem; right: 1rem; font-size: 1.5rem; cursor: pointer; z-index: 10;">☀️</div>
+<div class="card">
+  <img id="avatar" class="avatar" src="" alt="Profile Picture">
+  <div id="username" class="username">Loading...</div>
+  <div id="discord-status" class="status">Fetching status...</div>
+  <div id="activity" class="activity"></div>
+  <div class="socials">
+    <a href="http://steamcommunity.com/profiles/76561198416760083" target="_blank">
+      <img
+        src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/steam.svg"
+        alt="Steam"
+        class="social-icon"
+      >
+    </a>
+  
+    <a href="https://twitter.com/nikoeksdee" target="_blank">
+      <img
+        src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/twitter.svg"
+        alt="Twitter"
+        class="social-icon">
+
+        <a href="#" onclick="copyDiscordTag(); return false;" title="Click to copy Discord">
+          <img
+            src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg"
+            alt="Discord"
+            class="social-icon"
+          >
+        </a>
+        
+        <a href="https://www.youtube.com/@nikostvr" target="_blank">
+          <img
+            src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg"
+            alt="YouTube"
+            class="social-icon"
+          >
+        </a>
+        
+    </a>
+  </div>
+<!-- <div id="listening-label" class="listening-label">Currently not listening to anything</div> -->
+  
+
+  <!-- SoundCloud -->
+  <div id="soundcloud" class="soundcloud" style="display: none;">
+    <img id="sc-art" class="album-art" src="" alt="SoundCloud Album Art">
+    <div class="song-info">
+      <div id="sc-title" class="song-title"></div>
+      <div id="sc-artist" class="song-artist"></div>
+      <div class="progress-bar"><div id="sc-progress" class="progress"></div></div>
+      <div class="time-stamp">
+        <span id="sc-current-time">0:00</span>
+        <span id="sc-end-time">0:00</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Spotify -->
+  <div id="spotify" class="spotify" style="display: none;">
+    <a id="spotify-link" href="#" target="_blank">
+      <img id="album-art" class="album-art" src="" alt="Spotify Album Art">
+    </a>    
+    <div class="song-info">
+      <div id="song-title" class="song-title"></div>
+      <div id="song-artist" class="song-artist"></div>
+      <div class="progress-bar"><div id="progress" class="progress"></div></div>
+      <div class="time-stamp">
+        <span id="current-time">0:00</span>
+        <span id="end-time">0:00</span>
+      </div>
+    </div>
+  </div>
+</div> 
+<script>
+function copyDiscordTag() {
+  navigator.clipboard.writeText("@nikox3").then(() => {
+    const toast = document.getElementById("toast");
+    toast.style.opacity = 1;
+    setTimeout(() => {
+      toast.style.opacity = 0;
+    }, 2000); 
+  }).catch(() => {
+    alert("Failed to copy Discord tag.");
+  });
+}
+
+
+  let startTimestamp = 0;
+  let endTimestamp = 0;
+  let scStart = 0;
+  let scEnd = 0;
+
+  async function fetchDiscordStatus() {
+  const res = await fetch("https://api.lanyard.rest/v1/users/336919220103413762");
+  const json = await res.json();
+  const data = json.data;
+  const user = data.discord_user;
+const avatarUrl = user.avatar
+  ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
+  : `https://cdn.discordapp.com/embed/avatars/0.png`;
+
+document.getElementById("avatar").src = avatarUrl;
+
+
+  document.getElementById("username").textContent = 'niko';
+
+  const status = data.discord_status;
+  const statusClass = { online: "online", idle: "idle", dnd: "dnd" }[status] || "offline";
+  const statusEl = document.getElementById("discord-status");
+  statusEl.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+  statusEl.className = `status ${statusClass}`;
+
+  // Activity
+  const activityEl = document.getElementById("activity");
+  const listeningLabel = document.getElementById("listening-label");
+  const game = data.activities.find(a => a.type === 0);
+  activityEl.textContent = game ? `Playing ${game.name}` : "";
+
+  // SoundCloud
+  const scEl = document.getElementById("soundcloud");
+  const scAct = data.activities.find(a => a.name === "SoundCloud");
+  const hasSoundCloud = !!scAct;
+
+  if (scAct) {
+    scEl.style.display = "flex";
+    document.getElementById("sc-title").textContent = scAct.details || "";
+    document.getElementById("sc-artist").textContent = scAct.state || "";
+
+    if (scAct.assets && scAct.assets.large_image) {
+      const imgKey = scAct.assets.large_image;
+      const appId = scAct.application_id;
+      const imgUrl = imgKey.startsWith("mp:external")
+        ? `https://media.discordapp.net/${imgKey.replace("mp:", "")}`
+        : `https://cdn.discordapp.com/app-assets/${appId}/${imgKey}.png`;
+      document.getElementById("sc-art").src = imgUrl;
+    }
+
+    scStart = scAct.timestamps?.start || 0;
+    scEnd = scAct.timestamps?.end || 0;
+    if (scStart && scEnd) {
+      const dur = Math.floor((scEnd - scStart) / 1000);
+      document.getElementById("sc-end-time").textContent = formatTime(dur);
+    }
+  } else {
+    scEl.style.display = "none";
+    scStart = 0;
+    scEnd = 0;
+  }
+
+  // Spotify
+  const spotify = data.spotify;
+  const spotifyEl = document.getElementById("spotify");
+  const hasSpotify = data.listening_to_spotify && spotify;
+
+  if (hasSpotify) {
+    spotifyEl.style.display = "flex";
+    document.getElementById("album-art").src = spotify.album_art_url;
+    document.getElementById("song-title").textContent = spotify.song;
+    document.getElementById("song-artist").textContent = spotify.artist;
+    startTimestamp = spotify.timestamps.start;
+    endTimestamp = spotify.timestamps.end;
+    document.getElementById("end-time").textContent = formatTime((endTimestamp - startTimestamp) / 1000);
+
+    // clickable album art
+    document.getElementById("spotify-link").href = `https://open.spotify.com/track/${spotify.track_id}`;
+  } else {
+    spotifyEl.style.display = "none";
+    startTimestamp = 0;
+    endTimestamp = 0;
+  }
+
+  // Update listening label
+  if (hasSoundCloud || hasSpotify) {
+    listeningLabel.textContent = "Currently listening to";
+  } else {
+    listeningLabel.textContent = "Currently not listening to anything";
+  }
+}
+
+
+  function updateProgressBar() {
+    const now = Date.now();
+
+    if (startTimestamp && endTimestamp) {
+      const elapsed = now - startTimestamp;
+      const total = endTimestamp - startTimestamp;
+      const percent = Math.min((elapsed / total) * 100, 100);
+      document.getElementById("progress").style.width = `${percent}%`;
+      document.getElementById("current-time").textContent = formatTime(elapsed / 1000);
+    }
+
+    if (scStart && scEnd) {
+      const elapsed = now - scStart;
+      const total = scEnd - scStart;
+      const percent = Math.min((elapsed / total) * 100, 100);
+      document.getElementById("sc-progress").style.width = `${percent}%`;
+      document.getElementById("sc-current-time").textContent = formatTime(elapsed / 1000);
+    }
+  }
+
+  function formatTime(s) {
+    const sec = Math.floor(s % 60).toString().padStart(2, '0');
+    const min = Math.floor(s / 60);
+    return `${min}:${sec}`;
+  }
+
+  // Rain effect
+  const canvas = document.querySelector(".rain");
+  const ctx = canvas.getContext("2d");
+  let w = canvas.width = window.innerWidth;
+  let h = canvas.height = window.innerHeight;
+  const drops = Array.from({ length: 200 }, () => ({
+    x: Math.random() * w,
+    y: Math.random() * h,
+    l: Math.random() * 1.5,
+    xs: -1 + Math.random() * 2,
+    ys: Math.random() * 3 + 2
+  }));
+
+  let rainColor = "rgba(255,255,255,0.3)";
+
+  function drawRain() {
+    ctx.clearRect(0, 0, w, h);
+    ctx.strokeStyle = rainColor;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (let d of drops) {
+      ctx.moveTo(d.x, d.y);
+      ctx.lineTo(d.x + d.l * d.xs, d.y + d.l * d.ys);
+    }
+    ctx.stroke();
+    for (let d of drops) {
+      d.x += d.xs;
+      d.y += d.ys;
+      if (d.x > w || d.y > h) {
+        d.x = Math.random() * w;
+        d.y = -20;
+      }
+    }
+  }
+
+  // Typing effect
+  const titleText = "n i k o";
+  let titleIndex = 0;
+  let typingDirection = 1;
+
+  function typeLoop() {
+    document.title = titleIndex > 0 ? titleText.substring(0, titleIndex) : "k z";
+    if (typingDirection === 1 && titleIndex < titleText.length) {
+      titleIndex++;
+      setTimeout(typeLoop, 150);
+    } else if (typingDirection === 1) {
+      typingDirection = -1;
+      setTimeout(typeLoop, 1000);
+    } else if (typingDirection === -1 && titleIndex > 0) {
+      titleIndex--;
+      setTimeout(typeLoop, 150);
+    } else {
+      typingDirection = 1;
+      setTimeout(typeLoop, 1000);
+    }
+  }
+  typeLoop();
+
+  // toggle dark/light
+  const themeToggle = document.getElementById("theme-toggle");
+  let isDark = localStorage.getItem("theme") !== "light";
+
+  function applyTheme() {
+    document.body.classList.toggle("light-mode", !isDark);
+    document.body.style.background = isDark ? "black" : "white";
+    document.body.style.color = isDark ? "white" : "black";
+    rainColor = isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)";
+    themeToggle.textContent = isDark ? "☀️" : "🌙";
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  }
+
+  themeToggle.addEventListener("click", () => {
+    isDark = !isDark;
+    applyTheme();
+  });
+
+  applyTheme();
+  fetchDiscordStatus();
+  setInterval(fetchDiscordStatus, 5000);
+  setInterval(updateProgressBar, 1000);
+  setInterval(drawRain, 33);
+
+  window.addEventListener("resize", () => {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  });
+</script>
+</body>
+</html>
