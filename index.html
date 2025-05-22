@@ -5,6 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title> </title>
   <style>
+
+body.light-mode .nav-button {
+  border-color: black;
+  color: black;
+}
+
+body.light-mode .nav-button:hover,
+body.light-mode .nav-button.active {
+  background: black;
+  color: white;
+}
+
+
 .toast {
   position: fixed;
   bottom: 2rem;
@@ -166,81 +179,120 @@ body.dark-mode .toast {
   </style>
 </head>
 <body>
-  <div id="toast" class="toast">Copied Discord: @nikox3</div>
-<canvas class="rain"></canvas>
-<div id="theme-toggle" style="position: fixed; top: 1rem; right: 1rem; font-size: 1.5rem; cursor: pointer; z-index: 10;">☀️</div>
-<div class="card">
-  <img id="avatar" class="avatar" src="" alt="Profile Picture">
-  <div id="username" class="username">Loading...</div>
-  <div id="discord-status" class="status">Fetching status...</div>
-  <div id="activity" class="activity"></div>
-  <div class="socials">
-    <a href="http://steamcommunity.com/profiles/76561198416760083" target="_blank">
-      <img
-        src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/steam.svg"
-        alt="Steam"
-        class="social-icon"
-      >
-    </a>
-  
-    <a href="https://twitter.com/nikoeksdee" target="_blank">
-      <img
-        src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/twitter.svg"
-        alt="Twitter"
-        class="social-icon">
 
+  <div id="theme-toggle" style="position: fixed; top: 1rem; right: 1rem; font-size: 1.5rem; cursor: pointer; z-index: 10;">☀️</div>
+
+
+  <canvas class="rain"></canvas>
+
+    <div class="card">
+      <img id="avatar" class="avatar" src="" alt="Profile Picture">
+      <div id="username" class="username">niko</div>
+
+      <div id="discord-status" class="status">Fetching status...</div>
+
+      <div class="socials">
+        <!-- Steam -->
+        <a href="https://steamcommunity.com/id/degradingkink/" target="_blank">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/steam.svg" alt="Steam" class="social-icon">
+        </a>
+
+        <!-- Twitter -->
+        <a href="https://twitter.com/nikoeksdee" target="_blank">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/twitter.svg" alt="Twitter" class="social-icon">
+        </a>
+
+        <!-- Discord -->
         <a href="#" onclick="copyDiscordTag(); return false;" title="Click to copy Discord">
-          <img
-            src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg"
-            alt="Discord"
-            class="social-icon"
-          >
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg" alt="Discord" class="social-icon">
         </a>
-        
+
+        <!-- YouTube -->
         <a href="https://www.youtube.com/@nikostvr" target="_blank">
-          <img
-            src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg"
-            alt="YouTube"
-            class="social-icon"
-          >
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg" alt="YouTube" class="social-icon">
         </a>
-        
-    </a>
+      </div>
+
+      <div class="socials">
+        <!-- MyAnimeList -->
+        <a href="https://myanimelist.net/profile/nikomp4" target="_blank">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/myanimelist.svg" alt="MyAnimeList" class="social-icon">
+        </a>
+        <!-- SoundCloud -->
+        <a href="https://soundcloud.com/nikokz/likes" target="_blank">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/soundcloud.svg" alt="SoundCloud" class="social-icon">
+        </a>
+      </div>
+
+      <!-- <div id="listening-label" class="listening-label">Currently not listening to anything</div> -->
+
+      <!-- Spotify -->
+      <div id="spotify" class="spotify" style="display: none;">
+        <a id="spotify-link" href="#" target="_blank">
+          <img id="album-art" class="album-art" src="" alt="Spotify Album Art">
+        </a>
+        <div class="song-info">
+          <div id="song-title" class="song-title"></div>
+          <div id="song-artist" class="song-artist"></div>
+          <div class="progress-bar"><div id="progress" class="progress"></div></div>
+          <div class="time-stamp">
+            <span id="current-time">0:00</span>
+            <span id="end-time">0:00</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SoundCloud -->
+      <div id="soundcloud" class="spotify" style="display: none;">
+        <a id="soundcloud-link" href="#" target="_blank" title="Search on SoundCloud">
+          <img id="sc-art" class="album-art" src="" alt="SoundCloud Album Art">
+        </a>
+        <div class="song-info">
+          <div id="sc-title" class="song-title"></div>
+          <div id="sc-artist" class="song-artist"></div>
+          <div class="progress-bar"><div id="sc-progress" class="progress"></div></div>
+          <div class="time-stamp">
+            <span id="sc-current-time">0:00</span>
+            <span id="sc-end-time">0:00</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-<!-- <div id="listening-label" class="listening-label">Currently not listening to anything</div> -->
+
+  <!-- Toast for Discord Copy -->
+  <div id="toast" class="toast">Copied Discord: @nikox3</div>
+</body>
+
+<script>
   
 
-  <!-- SoundCloud -->
-  <div id="soundcloud" class="soundcloud" style="display: none;">
-    <img id="sc-art" class="album-art" src="" alt="SoundCloud Album Art">
-    <div class="song-info">
-      <div id="sc-title" class="song-title"></div>
-      <div id="sc-artist" class="song-artist"></div>
-      <div class="progress-bar"><div id="sc-progress" class="progress"></div></div>
-      <div class="time-stamp">
-        <span id="sc-current-time">0:00</span>
-        <span id="sc-end-time">0:00</span>
-      </div>
-    </div>
-  </div>
+function showSection(section) {
+  const sections = {
+    home: document.getElementById("home-section"),
+    me: document.getElementById("me-section")
+  };
 
-  <!-- Spotify -->
-  <div id="spotify" class="spotify" style="display: none;">
-    <a id="spotify-link" href="#" target="_blank">
-      <img id="album-art" class="album-art" src="" alt="Spotify Album Art">
-    </a>    
-    <div class="song-info">
-      <div id="song-title" class="song-title"></div>
-      <div id="song-artist" class="song-artist"></div>
-      <div class="progress-bar"><div id="progress" class="progress"></div></div>
-      <div class="time-stamp">
-        <span id="current-time">0:00</span>
-        <span id="end-time">0:00</span>
-      </div>
-    </div>
-  </div>
-</div> 
-<script>
+  // Hide all sections
+  Object.values(sections).forEach(sec => {
+    sec.classList.remove("section-visible");
+    setTimeout(() => {
+      sec.style.display = "none";
+    }, 400); // wait for fade out
+  });
+
+  // Show selected section
+  const selected = sections[section];
+  setTimeout(() => {
+    selected.style.display = "block";
+    requestAnimationFrame(() => {
+      selected.classList.add("section-visible");
+    });
+  }, 400);
+}
+
+
+
 function copyDiscordTag() {
   navigator.clipboard.writeText("@nikox3").then(() => {
     const toast = document.getElementById("toast");
@@ -263,6 +315,7 @@ function copyDiscordTag() {
   const res = await fetch("https://api.lanyard.rest/v1/users/336919220103413762");
   const json = await res.json();
   const data = json.data;
+
   const user = data.discord_user;
 const avatarUrl = user.avatar
   ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
@@ -271,29 +324,44 @@ const avatarUrl = user.avatar
 document.getElementById("avatar").src = avatarUrl;
 
 
-  document.getElementById("username").textContent = 'niko';
+    const discordStatusEl = document.getElementById("discord-status");
+    const statusText = data.discord_status;
 
-  const status = data.discord_status;
-  const statusClass = { online: "online", idle: "idle", dnd: "dnd" }[status] || "offline";
-  const statusEl = document.getElementById("discord-status");
-  statusEl.textContent = status.charAt(0).toUpperCase() + status.slice(1);
-  statusEl.className = `status ${statusClass}`;
+    switch(statusText) {
+      case 'online':
+        discordStatusEl.textContent = "Online";
+        discordStatusEl.className = "status online";
+        break;
+      case 'idle':
+        discordStatusEl.textContent = "Idle";
+        discordStatusEl.className = "status idle";
+        break;
+      case 'dnd':
+        discordStatusEl.textContent = "Do Not Disturb";
+        discordStatusEl.className = "status dnd";
+        break;
+      case 'offline':
+      default:
+        discordStatusEl.textContent = "Offline";
+        discordStatusEl.className = "status offline";
+        break;
+    }
 
-  // Activity
-  const activityEl = document.getElementById("activity");
-  const listeningLabel = document.getElementById("listening-label");
-  const game = data.activities.find(a => a.type === 0);
-  activityEl.textContent = game ? `Playing ${game.name}` : "";
 
-  // SoundCloud
+  // SoundCloud activity detection
   const scEl = document.getElementById("soundcloud");
   const scAct = data.activities.find(a => a.name === "SoundCloud");
   const hasSoundCloud = !!scAct;
 
-  if (scAct) {
+  if (hasSoundCloud) {
+    const artist = scAct.state || "";
+    const title = scAct.details || "";
+    const query = encodeURIComponent(`${artist} ${title}`);
+    document.getElementById("soundcloud-link").href = `https://soundcloud.com/search?q=${query}`;
+
     scEl.style.display = "flex";
-    document.getElementById("sc-title").textContent = scAct.details || "";
-    document.getElementById("sc-artist").textContent = scAct.state || "";
+    document.getElementById("sc-title").textContent = title;
+    document.getElementById("sc-artist").textContent = artist;
 
     if (scAct.assets && scAct.assets.large_image) {
       const imgKey = scAct.assets.large_image;
@@ -316,34 +384,8 @@ document.getElementById("avatar").src = avatarUrl;
     scEnd = 0;
   }
 
-  // Spotify
-  const spotify = data.spotify;
-  const spotifyEl = document.getElementById("spotify");
-  const hasSpotify = data.listening_to_spotify && spotify;
-
-  if (hasSpotify) {
-    spotifyEl.style.display = "flex";
-    document.getElementById("album-art").src = spotify.album_art_url;
-    document.getElementById("song-title").textContent = spotify.song;
-    document.getElementById("song-artist").textContent = spotify.artist;
-    startTimestamp = spotify.timestamps.start;
-    endTimestamp = spotify.timestamps.end;
-    document.getElementById("end-time").textContent = formatTime((endTimestamp - startTimestamp) / 1000);
-
-    // clickable album art
-    document.getElementById("spotify-link").href = `https://open.spotify.com/track/${spotify.track_id}`;
-  } else {
-    spotifyEl.style.display = "none";
-    startTimestamp = 0;
-    endTimestamp = 0;
-  }
-
-  // Update listening label
-  if (hasSoundCloud || hasSpotify) {
-    listeningLabel.textContent = "Currently listening to";
-  } else {
-    listeningLabel.textContent = "Currently not listening to anything";
-  }
+  const listeningLabel = document.getElementById("listening-label");
+  listeningLabel.textContent = hasSoundCloud ? "Currently listening to" : "Currently not listening to anything";
 }
 
 
@@ -372,6 +414,8 @@ document.getElementById("avatar").src = avatarUrl;
     const min = Math.floor(s / 60);
     return `${min}:${sec}`;
   }
+
+
 
   // Rain effect
   const canvas = document.querySelector(".rain");
